@@ -1,5 +1,6 @@
 import random
 import os
+from animals import Cow, Sheep
 
 
 class Crop(object):
@@ -60,6 +61,45 @@ class Crop(object):
         self._days_growing += 1
         self._update_status()
 
+class Wheat(Crop):
+    def __init__(self, growth_rate, light_need, water_need):
+        self._growth = 0
+        self._days_growing = 0
+        self._type = "wheat"
+        self._status = "seed"
+        self._growth_rate = growth_rate
+        self._light_need = light_need
+        self._water_need = water_need
+
+    def _update_status(self):
+        status = self._status
+        super(Wheat, self)._update_status()
+        if status is not self._status:
+            if self._status == 'Seeding':
+                self._growth_rate *= 1.5
+            elif self._status == 'Young':
+                self._growth_rate *= 1.25
+            elif self._status == 'Old':
+                self._growth_rate *= 0.5
+
+class Potato(Crop):
+    def __init__(self, growth_rate, light_need, water_need):
+        self._growth = 0
+        self._days_growing = 0
+        self._type = "potato"
+        self._status = "seed"
+        self._growth_rate = growth_rate
+        self._light_need = light_need
+        self._water_need = water_need
+
+    def _update_status(self):
+        status = self._status
+        super(Potato, self)._update_status()
+        if status is not self._status:
+            if self._status == 'Seeding':
+                self._growth_rate *= 1.5
+            elif self._status == 'Young':
+                self._growth_rate *= 1.25
 
 def auto_grow(crop, num_of_days):
     for _ in range(num_of_days):
@@ -78,6 +118,29 @@ def manual_grow(crop):
 def display_menu():
     print "\n--------------------------\n1 - Manual Grow Crop\n2 - Automatically Grow Crop\n3 - Display Crop report\
     \n4 - Exit\n--------------------------\n"
+
+def instantiate_crop():
+    is_valid = False
+    while not is_valid:
+        print('Please choose the crop type from available types:')
+        print('1. Wheat')
+        print('2. Potato')
+        print('3. Cow')
+        print('4. Sheep')
+        input_value = raw_input('Option selected: ')
+        if input_value.isdigit() and int(input_value) in (1, 2, 3, 4):
+            is_valid = True
+        else:
+            print('{} is not a valid option. Please choose from 1 to 2'.format(input_value))
+
+    if int(input_value) == 1:
+        return Wheat(3, 4, 4)
+    elif int(input_value) == 2:
+        return Potato(4, 3, 3)
+    elif int(input_value)  == 3:
+        return Cow('Vasya')
+    elif int(input_value) == 4:
+        return Sheep('Lucky')
 
 def get_menu_choice():
     valid = False
@@ -106,6 +169,7 @@ def manage_crop(crop):
             print crop.report()
             raw_input("Press Enter to continue...")
 
+
 if __name__ == "__main__":
     wheat = Crop(1, 5, 5)
     rice = Crop(8, 8, 10)
@@ -119,4 +183,5 @@ if __name__ == "__main__":
     print wheat.needs()
     print wheat.report()
     raw_input("Press Enter to start Manage Crop")
-    manage_crop(wheat)
+    #manage_crop(wheat)
+    manage_crop(instantiate_crop())
