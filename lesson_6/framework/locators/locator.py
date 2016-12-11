@@ -1,0 +1,3 @@
+USER_NAME_FIELD = 'Name'
+PASSWORD_FIELD = 'Password'
+SUBMIT_BUTTON = 'Submit'

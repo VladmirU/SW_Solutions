@@ -1,0 +1,2 @@
+NAME = 'TestUser'
+PASSWORD = 'TestPass'
